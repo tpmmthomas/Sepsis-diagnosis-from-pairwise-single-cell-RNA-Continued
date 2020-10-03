@@ -1,5 +1,5 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
 import scipy.stats as stats
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.svm import SVC 
