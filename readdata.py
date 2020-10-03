@@ -32,7 +32,7 @@ print("After deletion of columns:",samples.shape)
 
 idx = np.where(~a.any(axis=1))[0]
 samples = np.delete(samples,idx,axis = 0)
-labels = np.delete(labels,idx,axis = 1)
+labels = np.delete(label,idx)
 
 print("After deletion of rows:",samples.shape)
 
