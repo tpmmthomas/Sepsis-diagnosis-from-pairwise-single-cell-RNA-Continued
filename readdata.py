@@ -3,6 +3,7 @@ import numpy as np
 import scipy.stats as stats
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.svm import SVC 
+from statsmodels.stats.multitest import fdrcorrection
 from sklearn.model_selection import train_test_split
 import gzip
 import csv 
@@ -45,11 +46,15 @@ for lb in label:
     if lb == "Control":
         con_sample = np.vstack([con_sample,sample[i]])
     else:
-
+        case_sample = np.vstack([con_sample,sample[i]])
+    i = i + 1
     
-
-
-
-
+# optain stat value
 t_stat,pvalue = stats.ttest_ind(con_sample, case_sample, axis = 0, equal_var=True, nan_policy='raise')
-rejected, P_fdr = sm.fdrcorrection(pvalue, alpha=0.05, method='indep', is_sorted=False)
+rejected, P_fdr = fdrcorrection(pvalue, alpha=0.05, method='indep', is_sorted=False)
+
+
+
+
+
+
