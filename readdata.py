@@ -1,9 +1,17 @@
 import pandas as pd
 import numpy as np
+import gzip
+import csv 
 
+filename = r"data/scp_gex_matrix.csv.gz"
 print("start")
-z = np.empty((0,122558)) # Will have memory error soon
-for df in pd.read_csv(r"data/scp_gex_matrix.csv.gz",compression ="gzip", chunksize=10):
+with gzip.open(filename, mode="rt") as f:
+    reader = csv.reader(f)
+    i = next(reader)
+print(i)
+z = np.empty((0,122558)) 
+
+for df in pd.read_csv(filename,compression ="gzip", chunksize=10):
     df = df[(df.loc[:, df.columns != "GENE"].T != 0).any()] # remove all zero rows
     print(df)
     arr = df.to_numpy()
