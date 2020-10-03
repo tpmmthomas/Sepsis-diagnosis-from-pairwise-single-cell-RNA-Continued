@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 import gzip
 import csv 
 
-sample_transposed_f = r"data/out_tr.csv.gz" #each row is a sample
+sample_transposed_f = r"data/out_tr.csv.gz" #transposed so each row is a sample
 label_f = r"data/labely.csv.gz"
 
 
