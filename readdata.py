@@ -9,7 +9,7 @@ import gzip
 import csv 
 
 sample_transposed_f = r"data/out_tr.csv.gz" #each row is a sample
-label_f = r"data/labely.csv"
+label_f = r"data/labely.csv.gz"
 
 # 1. cut column
 # 2. perform T-test
@@ -67,4 +67,15 @@ for fdr in P_fdr:
 
 print("Filter succcessful")
 
+# Save all files
+df = pd.DataFrame(x_train)
+df.to_csv(r"data/training_sample.csv.gz",index=False,sep=" ",compression="gzip")
+df = pd.DataFrame(x_test)
+df.to_csv(r"data/testing_sample.csv.gz",index=False,sep=" ",compression="gzip")
+df = pd.DataFrame(y_train)
+df.to_csv(r"data/training_label.csv.gz",index=False,sep=" ",compression="gzip")
+df = pd.DataFrame(y_test)
+df.to_csv(r"data/testing_label.csv.gz",index=False,sep=" ",compression="gzip")
+df = pd.DataFrame(rna_names)
+df.to_csv(r"data/rna_name.csv.gz",index=False,sep=" ",compression="gzip")
 
