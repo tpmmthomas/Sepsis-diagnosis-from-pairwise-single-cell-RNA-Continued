@@ -11,8 +11,6 @@ import csv
 sample_transposed_f = r"data/out_tr.csv.gz" #each row is a sample
 label_f = r"data/labely.csv.gz"
 
-# 1. cut column
-# 2. perform T-test
 
 print("start") 
 
@@ -26,13 +24,19 @@ label = df.to_numpy()
 print("Samples ",samples.shape)
 print("Labels ",label.shape)
 
-#delete all zero columns (not yet done before right?)
+#delete all zero columns and rows
 idx = np.argwhere(np.all(samples[1:] ==0,axis = 0)) #find index of zero columns
 samples = np.delete(samples,idx,axis = 1) 
 
-print("After deletion:",samples.shape)
+print("After deletion of columns:",samples.shape)
 
-#Split RNA name with  rest of array
+idx = np.where(~a.any(axis=1))[0]
+samples = np.delete(samples,idx,axis = 0)
+labels = np.delete(labels,idx,axis = 1)
+
+print("After deletion of rows:",samples.shape)
+
+#Split RNA name with arest of array
 rna_names = samples[0]
 samples = samples[1:]
 
