@@ -30,7 +30,7 @@ samples = np.delete(samples,idx,axis = 1)
 
 print("After deletion of columns:",samples.shape)
 
-idx = np.where(~a.any(axis=1))[0]
+idx = np.where(~samples.any(axis=1))[0]
 samples = np.delete(samples,idx,axis = 0)
 labels = np.delete(label,idx)
 
@@ -82,4 +82,12 @@ df = pd.DataFrame(y_test)
 df.to_csv(r"data/testing_label.csv.gz",index=False,sep=" ",compression="gzip")
 df = pd.DataFrame(rna_names)
 df.to_csv(r"data/rna_name.csv.gz",index=False,sep=" ",compression="gzip")
+
+# Checking
+print(x_train.shape)
+print(x_test.shape)
+print(y_train.shape)
+print(y_test.shape)
+print(rna_names.shape)
+print("Finish!")
 
