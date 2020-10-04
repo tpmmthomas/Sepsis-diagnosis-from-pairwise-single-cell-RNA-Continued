@@ -15,11 +15,14 @@ label_f = r"/research/dept8/estr3108/cprj2716/labely.csv.gz"
 print("start") 
 
 #read csv file, store in numpy
-df = pd.read_csv(sample_transposed_f,compression ="gzip")
-samples = df.to_numpy()
 
 df = pd.read_csv(label_f,compression ="gzip")
 label = df.to_numpy()
+
+samplesdf = pd.DataFrame()
+for df in  pd.read_csv(sample_transposed_f,compression ="gzip", chunksize = 1000):
+    samplesdf = samplesdf.append(df)
+samples = samplesdf.to_numpy()
 
 print("Samples ",samples.shape)
 print("Labels ",label.shape)
