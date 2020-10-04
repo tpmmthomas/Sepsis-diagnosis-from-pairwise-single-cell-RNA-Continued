@@ -8,16 +8,17 @@ from sklearn.model_selection import train_test_split
 import gzip
 import csv 
 
-sample_transposed_f = r"/research/dept8/estr3108/cprj2716/out_tr.csv.gz" #transposed so each row is a sample
-label_f = r"/research/dept8/estr3108/cprj2716/labely.csv.gz"
+#sample_transposed_f = r"/research/dept8/estr3108/cprj2716/out_tr.csv.gz" #transposed so each row is a sample
+#label_f = r"/research/dept8/estr3108/cprj2716/labely.csv.gz"
 
+sample_transposed_f = r"C:/Users/TPMMTHOMAS/Documents/GitHub/ESTR3108-Sepsis-diagnosis-from-pairwise-single-cell-RNA/data/out_tr.csv.gz" #transposed so each row is a sample
+label_f = r"C:/Users/TPMMTHOMAS/Documents/GitHub/ESTR3108-Sepsis-diagnosis-from-pairwise-single-cell-RNA/data/labely.csv.gz"
 
 print("start") 
 
 #read csv file, store in numpy
 
-df = pd.read_csv(label_f,compression ="gzip")
-label = df.to_numpy()
+label = np.genfromtxt(label_f, delimiter=',', dtype=None, encoding=None,skip_header=0) 
 
 samplesdf = pd.DataFrame()
 for df in  pd.read_csv(sample_transposed_f,compression ="gzip", chunksize = 1000):
