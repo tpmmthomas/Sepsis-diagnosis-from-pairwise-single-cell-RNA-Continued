@@ -18,6 +18,8 @@ print("start")
 df = pd.read_csv(sample_transposed_f,compression ="gzip")
 samples = df.to_numpy()
 
+print("first ok")
+
 df = pd.read_csv(label_f,compression ="gzip")
 label = df.to_numpy()
 
