@@ -13,29 +13,38 @@ label_f = r"/research/dept8/estr3108/cprj2716/labely.csv.gz"
 
 #sample_transposed_f = r"C:/Users/TPMMTHOMAS/Documents/GitHub/ESTR3108-Sepsis-diagnosis-from-pairwise-single-cell-RNA/data/out_tr.csv.gz" #transposed so each row is a sample
 #label_f = r"C:/Users/TPMMTHOMAS/Documents/GitHub/ESTR3108-Sepsis-diagnosis-from-pairwise-single-cell-RNA/data/labely.csv.gz"
+def fprint(txtt):
+    f = open(r"/uac/cprj/cprj2716/dp.txt","a+")
+    f.write(txtt)
+    f.write("\n")
+    f.close()
 
-print("start") 
+fprint("start") 
 
 #read csv file, store in numpy
 
 label = np.genfromtxt(label_f, delimiter=',', dtype=None, encoding=None,skip_header=0) 
-print(label)
+fprint(label)
 
 samplesdf = pd.DataFrame()
 for df in  pd.read_csv(sample_transposed_f,compression ="gzip", chunksize = 1000, header = 1):
     samplesdf = samplesdf.append(df)
 samples = samplesdf.to_numpy()
 
-print("Samples ",samples.shape)
-print("Labels ",label.shape)
+fprint("Samples ")
+fprint(samples.shape)
+fprint("Labels ")
+fprint(label.shape)
 
 #Get RNA names
 rna_names = pd.read_csv(sample_transposed_f,compression ="gzip", nrows=1 , header = 0)
 rna_names = rna_names.to_numpy()
 samples = samples.astype('float64')
 
-print("Samples ",samples.shape)
-print("Labels ",label.shape)
+fprint("Samples ")
+fprint(samples.shape)
+fprint("Labels ")
+fprint(label.shape)
 
 
 #delete all zero columns and rows
@@ -43,19 +52,22 @@ idx = np.argwhere(np.all(samples==0,axis = 0)) #find index of zero columns
 samples = np.delete(samples,idx,axis = 1) 
 rna_names = np.delete(rna_names,idx) 
 
-print("After deletion of columns:",samples.shape)
+fprint("After deletion of columns:")
+fprint(samples.shape)
 
 idx = np.where(~samples.any(axis=1))[0]
 samples = np.delete(samples,idx,axis = 0)
 label = np.delete(label,idx)
 
-print("After deletion of rows:",samples.shape)
+fprint("After deletion of rows:")
+fprint(samples.shape)
 
-print("Labels checK",label.shape)
+fprint("Labels check")
+fprint(label.shape)
 
 #split training and testing sample (x = sample, y = label)
 x_train,x_test,y_train,y_test = train_test_split(samples,label,test_size = 0.1, random_state = 41)
-print("Split succcessful")
+fprint("Split succcessful")
 
 #save 1 copy first
 df = pd.DataFrame(x_train)
@@ -66,12 +78,14 @@ df = pd.DataFrame(y_train)
 df.to_csv(r"/research/dept8/estr3108/cprj2716/training_label_raw.csv.gz",index=False,sep=" ",compression="gzip")
 df = pd.DataFrame(y_test)
 df.to_csv(r"/research/dept8/estr3108/cprj2716/testing_label_raw.csv.gz",index=False,sep=" ",compression="gzip")
+df = pd.DataFrame(rna_names)
+df.to_csv(r"/research/dept8/estr3108/cprj2716/rna_names_raw.csv.gz",index=False,sep=" ",compression="gzip")
 
 #checking 
-print(x_train.shape)
-print(x_test.shape)
-print(y_train.shape)
-print(y_test.shape)
+fprint(x_train.shape)
+fprint(x_test.shape)
+fprint(y_train.shape)
+fprint(y_test.shape)
 
 #separate control and case samples
 con_sample = np.empty((0,len(samples[0])))
@@ -81,25 +95,32 @@ for lb in label:
     if lb == "Control":
         con_sample = np.vstack([con_sample,samples[i]])
     else:
-        case_sample = np.vstack([con_sample,samples[i]])
+        case_sample = np.vstack([case_sample,samples[i]])
     i = i + 1
 
-print("Separation succcessful")
+fprint("Separation succcessful")
+
+df = pd.DataFrame(con_sample)
+df.to_csv(r"/research/dept8/estr3108/cprj2716/con_sample.csv.gz",index=False,sep=" ",compression="gzip")
+df = pd.DataFrame(case_sample)
+df.to_csv(r"/research/dept8/estr3108/cprj2716/case_sample.csv.gz",index=False,sep=" ",compression="gzip")
 
 # optain stat value
 t_stat,pvalue = stats.ttest_ind(con_sample, case_sample, axis = 0, equal_var=True, nan_policy='raise')
 rejected, P_fdr = fdrcorrection(pvalue, alpha=0.05, method='indep', is_sorted=False)
 
+fprint("Value computed!")
+
 # select RNAs with small P_fdr as the input
 i = 0
 for fdr in P_fdr:
-    if fdr > 0.02:
+    if fdr > 0.05:
         x_train = np.delete(x_train,i,1)
         x_test = np.delete(x_test,i,1)
         rna_names = np.delete(rna_names,i)
         i = i + 1
 
-print("Filter succcessful")
+fprint("Filter succcessful")
 
 # Save all files
 df = pd.DataFrame(P_fdr)
@@ -116,10 +137,10 @@ df = pd.DataFrame(rna_names)
 df.to_csv(r"/research/dept8/estr3108/cprj2716/rna_name.csv.gz",index=False,sep=" ",compression="gzip")
 
 # Checking
-print(x_train.shape)
-print(x_test.shape)
-print(y_train.shape)
-print(y_test.shape)
-print(rna_names.shape)
-print("Finish!")
+fprint(x_train.shape)
+fprint(x_test.shape)
+fprint(y_train.shape)
+fprint(y_test.shape)
+fprint(rna_names.shape)
+fprint("Finish!")
 
