@@ -8,17 +8,8 @@ from sklearn.model_selection import train_test_split
 import gzip
 import csv 
 
-def row_count(input):
-    for df in  pd.read_csv(input,compression ="gzip", chunksize = 1, header =0):
-        print(df)
-        break
+label_f = r"C:/Users/TPMMTHOMAS/Documents/GitHub/ESTR3108-Sepsis-diagnosis-from-pairwise-single-cell-RNA/data/labely.csv.gz"
+label = np.genfromtxt(label_f, delimiter=',', dtype=None, encoding=None,skip_header=0) 
 
-print("start")
-xt_loc = r"data/training_sample_raw.csv.gz"
-xtt_loc = r"data/testing_sample_raw.csv.gz"
-yt_loc = r"data/training_label_raw.csv.gz"
-ytt_loc = r"data/testing_label_raw.csv.gz"
-
-row_count(xtt_loc)
-
-
+for lb in label:
+    print(lb)

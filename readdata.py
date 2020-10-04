@@ -24,7 +24,7 @@ fprint("start")
 #read csv file, store in numpy
 
 label = np.genfromtxt(label_f, delimiter=',', dtype=None, encoding=None,skip_header=0) 
-fprint(label)
+fprint("input label")
 
 samplesdf = pd.DataFrame()
 for df in  pd.read_csv(sample_transposed_f,compression ="gzip", chunksize = 1000, header = 1):
