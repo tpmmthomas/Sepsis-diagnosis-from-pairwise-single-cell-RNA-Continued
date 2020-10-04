@@ -18,8 +18,6 @@ print("start")
 df = pd.read_csv(sample_transposed_f,compression ="gzip")
 samples = df.to_numpy()
 
-print("first ok")
-
 df = pd.read_csv(label_f,compression ="gzip")
 label = df.to_numpy()
 
@@ -52,6 +50,22 @@ print("After deletion of rows:",samples.shape)
 x_train,x_test,y_train,y_test = train_test_split(samples,label,test_size = 0.1, random_state = 41)
 print("Split succcessful")
 
+#save 1 copy first
+df = pd.DataFrame(x_train)
+df.to_csv(r"/research/dept8/estr3108/cprj2716/training_sample_raw.csv.gz",index=False,sep=" ",compression="gzip")
+df = pd.DataFrame(x_test)
+df.to_csv(r"/research/dept8/estr3108/cprj2716/testing_sample_raw.csv.gz",index=False,sep=" ",compression="gzip")
+df = pd.DataFrame(y_train)
+df.to_csv(r"/research/dept8/estr3108/cprj2716/training_label_raw.csv.gz",index=False,sep=" ",compression="gzip")
+df = pd.DataFrame(y_test)
+df.to_csv(r"/research/dept8/estr3108/cprj2716/testing_label_raw.csv.gz",index=False,sep=" ",compression="gzip")
+
+#checking 
+print(x_train.shape)
+print(x_test.shape)
+print(y_train.shape)
+print(y_test.shape)
+
 #separate control and case samples
 con_sample = np.empty((0,len(samples[0])))
 case_sample = np.empty((0,len(samples[0])))
@@ -75,12 +89,14 @@ for fdr in P_fdr:
     if fdr > 0.02:
         x_train = np.delete(x_train,i,1)
         x_test = np.delete(x_test,i,1)
-        rna_names = np.delete(rna_names,i,1)
+        rna_names = np.delete(rna_names,i)
         i = i + 1
 
 print("Filter succcessful")
 
 # Save all files
+df = pd.DataFrame(P_fdr)
+df.to_csv(r"/research/dept8/estr3108/cprj2716/P_fdr.csv.gz",index=False,sep=" ",compression="gzip")
 df = pd.DataFrame(x_train)
 df.to_csv(r"/research/dept8/estr3108/cprj2716/training_sample.csv.gz",index=False,sep=" ",compression="gzip")
 df = pd.DataFrame(x_test)
