@@ -15,7 +15,7 @@ label_f = r"/research/dept8/estr3108/cprj2716/labely.csv.gz"
 #label_f = r"C:/Users/TPMMTHOMAS/Documents/GitHub/ESTR3108-Sepsis-diagnosis-from-pairwise-single-cell-RNA/data/labely.csv.gz"
 def fprint(txtt):
     f = open(r"/uac/cprj/cprj2716/dp.txt","a+")
-    f.write(txtt)
+    f.write(str(txtt))
     f.write("\n")
     f.close()
 
