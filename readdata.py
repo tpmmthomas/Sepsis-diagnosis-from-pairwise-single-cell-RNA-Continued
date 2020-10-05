@@ -88,14 +88,14 @@ fprint(y_train.shape)
 fprint(y_test.shape)
 
 #separate control and case samples
-con_sample = np.empty((0,len(samples[0])))
-case_sample = np.empty((0,len(samples[0])))
+con_sample = np.empty((0,len(x_train[0])))
+case_sample = np.empty((0,len(x_train[0])))
 i = 0
-for lb in label:
+for lb in y_train:
     if lb == "Control":
-        con_sample = np.vstack([con_sample,samples[i]])
+        con_sample = np.vstack([con_sample,x_train[i]])
     else:
-        case_sample = np.vstack([case_sample,samples[i]])
+        case_sample = np.vstack([case_sample,x_train[i]])
     i = i + 1
 
 fprint("Separation succcessful")
