@@ -52,7 +52,7 @@ idx = np.argwhere(np.all(samples==0,axis = 0)) #find index of zero columns
 samples = np.delete(samples,idx,axis = 1) 
 rna_names = np.delete(rna_names,idx) 
 
-fprint("After deletion of columns:")
+fprint("After deletion of columns:")e
 fprint(samples.shape)
 
 idx = np.where(~samples.any(axis=1))[0]
@@ -79,7 +79,7 @@ df.to_csv(r"/research/dept8/estr3108/cprj2716/training_label_raw.csv.gz",index=F
 df = pd.DataFrame(y_test)
 df.to_csv(r"/research/dept8/estr3108/cprj2716/testing_label_raw.csv.gz",index=False,sep=" ",compression="gzip")
 df = pd.DataFrame(rna_names)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/rna_names_raw.csv.gz",index=False,sep=" ",compression="gzip")
+df.to_csv(r"/reaksearch/dept8/estr3108/cprj2716/rna_names_raw.csv.gz",index=False,sep=" ",compression="gzip")
 
 #checking 
 fprint(x_train.shape)

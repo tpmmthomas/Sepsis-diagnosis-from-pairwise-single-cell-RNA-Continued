@@ -92,7 +92,7 @@ for fdr in P_fdr:
     if fdr > 0.05:
         x_train = np.delete(x_train,i,1)
         x_test = np.delete(x_test,i,1)
-        rna_names = np.delete(rna_names,i)
+        rna_name = np.delete(rna_name,i)
         i = i + 1
 
 fprint("Filter succcessful")
@@ -108,7 +108,7 @@ df = pd.DataFrame(y_train)
 df.to_csv(r"/research/dept8/estr3108/cprj2716/training_label.csv.gz",index=False,sep=",",compression="gzip")
 df = pd.DataFrame(y_test)
 df.to_csv(r"/research/dept8/estr3108/cprj2716/testing_label.csv.gz",index=False,sep=",",compression="gzip")
-df = pd.DataFrame(rna_names)
+df = pd.DataFrame(rna_name)
 df.to_csv(r"/research/dept8/estr3108/cprj2716/rna_name.csv.gz",index=False,sep=",",compression="gzip")
 
 # Checking
