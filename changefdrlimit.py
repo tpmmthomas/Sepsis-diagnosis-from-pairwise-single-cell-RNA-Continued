@@ -45,12 +45,12 @@ for df in  pd.read_csv(ytest,compression ="gzip",delimiter=',', chunksize = 1000
 y_test = samplesdf.to_numpy()
 fprint("Read ytest")
 samplesdf = pd.DataFrame()
-for df in  pd.read_csv(rnaname,compression ="gzip",delimiter=' ', chunksize = 10000, header=0):
+for df in  pd.read_csv(rnaname,compression ="gzip",delimiter=',', chunksize = 10000, header=0):
     samplesdf = samplesdf.append(df)
 rna_name = samplesdf.to_numpy()
 fprint("Read rnaname")
 samplesdf = pd.DataFrame()
-for df in  pd.read_csv(fdrn,compression ="gzip",delimiter=' ', chunksize = 10000, header=0):
+for df in  pd.read_csv(fdrn,compression ="gzip",delimiter=',', chunksize = 10000, header=0):
     samplesdf = samplesdf.append(df)
 P_fdr = samplesdf.to_numpy()
 fprint("Read fdr")
