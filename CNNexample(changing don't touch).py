@@ -108,20 +108,21 @@ class CNN(nn.Module):
             nn.Conv1d(
                 in_channels=1,              # input height
                 out_channels=4,            # n_filters
-                kernel_size=5,              # filter size
+                kernel_size=3,              # filter size
                 stride=1,                   # filter movement/step
-                padding=2,                  # if want same width and length of this image after con2d, padding=(kernel_size-1)/2 if stride=1
+                padding=1,                  # if want same width and length of this image after con2d, padding=(kernel_size-1)/2 if stride=1
             ),                              # output shape (x,64,8949)
             nn.BatchNorm1d(4),
             nn.ReLU(),                      # activation
         )
         self.conv2 = nn.Sequential(         # input shape (x,64, 8949)
-            nn.Conv1d(4,4,5,1,2),            
-            nn.ReLU(),                      # activation
+            nn.Conv1d(4,4,3,1,1),            
+            nn.ReLU(),  
+            nn.Dropout(p=0.4),
             nn.MaxPool1d(kernel_size =2, stride=2,ceil_mode = True),                # output shape (x,64,4478)
         )
         self.conv3 = nn.Sequential(         # input shape (x,64,4478)
-            nn.Conv1d(4, 4, 5, 1, 2),     # output shape (x,128,4478)
+            nn.Conv1d(4, 4, 3, 1, 1),     # output shape (x,128,4478)
             nn.ReLU(),                      # activation
             nn.MaxPool1d(kernel_size =2, stride=2,ceil_mode = True),                # output shape (x,128,2238)
         )
@@ -225,7 +226,7 @@ predictions = np.argmax(prob, axis=1)
 accuracy_score(y_train, predictions)
 
 
-# In[ ]:
+# In[12]:
 
 
 # prediction for testing set
