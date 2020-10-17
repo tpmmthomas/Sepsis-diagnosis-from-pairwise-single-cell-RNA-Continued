@@ -1,16 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# # 401 CNN
-# 
-# View more, visit my tutorial page: https://morvanzhou.github.io/tutorials/
-# My Youtube Channel: https://www.youtube.com/user/MorvanZhou
-# 
-# Dependencies:
-# * torch: 0.1.11
-# * torchvision
-# * matplotlib
-
 # In[1]:
 
 
@@ -94,7 +81,7 @@ x_test.shape,y_test.shape
 
 
 # Hyper Parameters
-EPOCH = 25             # train the training data n times, to save time, we just train 1 epoch
+EPOCH = 25             # train the training data n times
 LR = 0.001              # learning rate
 
 
@@ -111,22 +98,22 @@ class CNN(nn.Module):
                 kernel_size=3,              # filter size
                 stride=1,                   # filter movement/step
                 padding=1,                  # if want same width and length of this image after con2d, padding=(kernel_size-1)/2 if stride=1
-            ),                              # output shape (x,64,8949)
+            ),                             
             nn.BatchNorm1d(4),
             nn.ReLU(),                      # activation
         )
-        self.conv2 = nn.Sequential(         # input shape (x,64, 8949)
+        self.conv2 = nn.Sequential(         
             nn.Conv1d(4,4,3,1,1),            
             nn.ReLU(),  
             nn.Dropout(p=0.4),
-            nn.MaxPool1d(kernel_size =2, stride=2,ceil_mode = True),                # output shape (x,64,4478)
+            nn.MaxPool1d(kernel_size =2, stride=2,ceil_mode = True),                
         )
-        self.conv3 = nn.Sequential(         # input shape (x,64,4478)
-            nn.Conv1d(4, 4, 3, 1, 1),     # output shape (x,128,4478)
+        self.conv3 = nn.Sequential(         
+            nn.Conv1d(4, 4, 3, 1, 1),     
             nn.ReLU(),                      # activation
-            nn.MaxPool1d(kernel_size =2, stride=2,ceil_mode = True),                # output shape (x,128,2238)
+            nn.MaxPool1d(kernel_size =2, stride=2,ceil_mode = True),              
         )
-        self.out = nn.Linear(17900 , 7)   # fully connected layer, output 10 classes
+        self.out = nn.Linear(17900 , 7)   # fully connected layer, output 7 classes
 
     def forward(self, x):
         x = self.conv1(x)
