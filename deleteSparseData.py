@@ -17,9 +17,9 @@ def fprint(txtt):
 fprint("start") 
 
 xtrain = r"/research/dept8/estr3108/cprj2716/training_sample2.csv.gz"
-ytrain = r"/research/dept8/estr3108/cprj2716/training_label_int2.csv.gz"
+ytrain = r"/research/dept8/estr3108/cprj2716/training_label2_int2.csv.gz"
 xtest = r"/research/dept8/estr3108/cprj2716/testing_sample2.csv.gz"
-ytest = r"/research/dept8/estr3108/cprj2716/testing_label_int2.csv.gz"
+ytest = r"/research/dept8/estr3108/cprj2716/testing_label2_int2.csv.gz"
 rnaname = r"/research/dept8/estr3108/cprj2716/rna_name2.csv.gz"
 
 
@@ -69,8 +69,8 @@ for samples in x_train :
         idx.append(i)
     i = i + 1
 
-x_train = np.delete(x_train, idx)
-y_train = np.delete(y_train,idx)
+x_train = np.delete(x_train, idx,axis=0)
+y_train = np.delete(y_train,idx,axis=0)
 
 fprint("Deleted x_train sparse.")
 fprint(x_train.shape)
@@ -89,15 +89,15 @@ for samples in x_test :
         idx.append(i)
     i = i + 1
 
-x_test = np.delete(x_test, idx)
-y_test = np.delete(y_test, idx)
+x_test = np.delete(x_test, idx,axis=0)
+y_test = np.delete(y_test, idx,axis=0)
 
 fprint("Deleted x_test sparse.")
 fprint(x_test.shape)
 fprint(y_test.shape)
 
 #Take transpose of everything
-allsample = np.vstack(x_train,x_test)
+allsample = np.vstack((x_train,x_test))
 allsample = np.transpose(allsample)
 fprint("Taken transpose.")
 fprint(allsample.shape)
@@ -120,7 +120,7 @@ fprint("Number of cols found")
 fprint(len(idx))
 x_train = np.delete(x_train,idx,axis=1)
 x_test = np.delete(x_test,idx,axis=1)
-rna_name = np.delete(rna_name,idx)
+rna_name = np.delete(rna_name,idx,axis=0)
 
 fprint("Deleted col sparse.")
 fprint(x_train.shape)
