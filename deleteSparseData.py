@@ -124,7 +124,7 @@ rna_name = np.delete(rna_name,idx,axis=0)
 
 fprint("Deleted col sparse.")
 fprint(x_train.shape)
-fprint(x_text.shape)
+fprint(x_test.shape)
 fprint(rna_name.shape)
 
 
