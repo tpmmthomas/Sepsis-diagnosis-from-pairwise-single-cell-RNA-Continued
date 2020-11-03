@@ -7,3 +7,5 @@ Other files are just numerous retries due to bugs in readdata.py. I will update 
 
 
 UPDATE: changefdrlimit further chooses data with fdr <=0.01. All files are suffixed with 2.
+
+UPDATE 2: DeleteSparse data deletes rows and columns with over 90% 0.
