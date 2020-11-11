@@ -9,9 +9,6 @@ import os
 # for creating validation set
 from sklearn.model_selection import train_test_split
 
-# for evaluating the model
-from sklearn.metrics import accuracy_score
-from tqdm import tqdm
 
 # PyTorch libraries and modules
 import torch
@@ -24,27 +21,22 @@ from torch.utils.data import Dataset, DataLoader
 from module import *
 
 def fprint(txtt):
-    #f = open(r"/uac/cprj/cprj2716/train.txt","a+")
-    #try:
-    #    f.write(str(txtt))
-    #except:
-    #    f.write("Cannot print.")
-    #f.write("\n")
-    #f.close()
-    print(str(txtt))
-
+    f = open(r"/uac/cprj/cprj2716/train.txt","a+")
+    try:
+        f.write(str(txtt))
+    except:
+        f.write("Cannot print.")
+    f.write("\n")
+    f.close()
 
 
 # Load training data set (small amount to test if it works first)
 
-#xtrain = r"/research/dept8/estr3108/cprj2716/training_sample_NoSparse.csv.gz"
-#ytrain = r"/research/dept8/estr3108/cprj2716/training_label_NoSparse.csv.gz" 
-#xtest =  r"/research/dept8/estr3108/cprj2716/testing_sample_NoSparse.csv.gz"
-#ytest =  r"/research/dept8/estr3108/cprj2716/testing_label_NoSparse.csv.gz"
-xtrain = r"data/training_sample_NoSparse.csv.gz"
-ytrain = r"data/training_label_NoSparse.csv.gz"
-xtest = r"data/testing_sample_NoSparse.csv.gz"
-ytest = r"data/testing_label_NoSparse.csv.gz"
+xtrain = r"/research/dept8/estr3108/cprj2716/training_sample_NoSparse.csv.gz"
+ytrain = r"/research/dept8/estr3108/cprj2716/training_label_NoSparse.csv.gz" 
+xtest =  r"/research/dept8/estr3108/cprj2716/testing_sample2_NoSparse.csv.gz"
+ytest =  r"/research/dept8/estr3108/cprj2716/testing_label_NoSparse.csv.gz"
+
 
 
 class Dataset(Dataset):
@@ -202,7 +194,6 @@ def train(model):
                 rna = rna.cuda()
                 labels = labels.cuda()
             outputs = model(rna)
-            labels = labels.long()
             #print(outputs)
             outputs = outputs.reshape(-1,2)
             labels = labels.reshape(-1,2)
