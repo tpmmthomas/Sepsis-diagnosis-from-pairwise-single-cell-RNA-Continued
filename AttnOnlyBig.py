@@ -108,7 +108,7 @@ if torch.cuda.is_available():
     loss_func = loss_func.cuda()
     trans = trans.cuda()
 trans = trans.double()
-print(trans)
+fprint(trans)
 
 def test(model):
     model.eval()
@@ -182,7 +182,7 @@ def train(model):
             _, labels = torch.max(labels.data, 1)
             correct = (predicted == labels).sum().item()
             train_acc.append(correct / total)
-            if i % 10 == 0:
+            if i % 100 == 0:
                 fprint('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}, Accuracy: {:.2f}%'
                         .format(epoch + 1, num_epoch , i + 1, total_step, loss.item(),
                                 (correct / total) * 100))
@@ -192,4 +192,4 @@ def train(model):
 train_losses = []
 train_acc = []
 test_acc = []
-train(cnntrans)
+train(trans)
