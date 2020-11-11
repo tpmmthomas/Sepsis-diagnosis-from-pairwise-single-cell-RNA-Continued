@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
 
 
 # importing the libraries
@@ -27,46 +23,28 @@ from torch.utils.data import Dataset, DataLoader
 #Transformers
 from module import *
 
+def fprint(txtt):
+    #f = open(r"/uac/cprj/cprj2716/train.txt","a+")
+    #try:
+    #    f.write(str(txtt))
+    #except:
+    #    f.write("Cannot print.")
+    #f.write("\n")
+    #f.close()
+    print(str(txtt))
 
-# In[2]:
 
 
 # Load training data set (small amount to test if it works first)
 
+#xtrain = r"/research/dept8/estr3108/cprj2716/training_sample_NoSparse.csv.gz"
+#ytrain = r"/research/dept8/estr3108/cprj2716/training_label_NoSparse.csv.gz" 
+#xtest =  r"/research/dept8/estr3108/cprj2716/testing_sample_NoSparse.csv.gz"
+#ytest =  r"/research/dept8/estr3108/cprj2716/testing_label_NoSparse.csv.gz"
 xtrain = r"data/training_sample_NoSparse.csv.gz"
 ytrain = r"data/training_label_NoSparse.csv.gz"
 xtest = r"data/testing_sample_NoSparse.csv.gz"
 ytest = r"data/testing_label_NoSparse.csv.gz"
-
-
-# In[3]:
-
-
-#check balance
-samplesdf = pd.DataFrame()
-for df in  pd.read_csv(ytrain,compression ="gzip",delimiter=',', chunksize = 10000, header=0):
-    samplesdf = samplesdf.append(df)
-y_train = samplesdf.to_numpy()
-
-num0 = 0
-num1 = 0
-for x in y_train:
-    if x == 0:
-        num0 = num0 + 1
-    else:
-        num1 = num1 + 1
-num0,num1 #checking if it is balanced
-
-
-# In[4]:
-
-
-df = pd.read_csv(xtrain,compression ="gzip",delimiter=',', nrows=123, header=0)
-x_train = df.to_numpy()
-print(x_train)
-
-
-# In[5]:
 
 
 class Dataset(Dataset):
@@ -100,14 +78,8 @@ class Dataset(Dataset):
         return sample
 
 
-# In[6]:
-
-
 train_dataset = Dataset(samples=xtrain,labels=ytrain,numrows = 29255)
 test_dataset = Dataset(samples = xtest,labels = ytest,numrows = 3241)
-
-
-# In[7]:
 
 
 # Hyper Parameters
@@ -117,100 +89,15 @@ batch_size = 32
 wd = LR / EPOCH
 
 
-# In[8]:
-
-
 train_loader = DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=True)
 test_loader = DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=False)
 
 
-# In[9]:
 
-
-class CNN(nn.Module):
-    def __init__(self):
-        super(CNN, self).__init__()
-        self.conv1 = nn.Sequential(         # input shape (x,1, 8949)
-            nn.Conv1d(
-                in_channels=1,              # input height
-                out_channels=4,            # n_filters
-                kernel_size=3,              # filter size
-                stride=1,                   # filter movement/step
-                padding=1,                  # if want same width and length of this image after con2d, padding=(kernel_size-1)/2 if stride=1
-            ),                              # output shape (x,64,8949)
-            nn.BatchNorm1d(4),
-            nn.ReLU(),                      # activation
-        )
-        self.conv2 = nn.Sequential(         # input shape (x,64, 8949)
-            nn.Conv1d(4,4,3,1,1),            
-            nn.ReLU(),  
-            nn.Dropout(p=0.1),
-            nn.MaxPool1d(kernel_size =2, stride=2,ceil_mode = True),                # output shape (x,64,4478)
-        )
-        self.conv3 = nn.Sequential(         # input shape (x,64,4478)
-            nn.Conv1d(4, 4, 3, 1, 1),     # output shape (x,128,4478)
-            nn.ReLU(),                      # activation
-            nn.MaxPool1d(kernel_size =2, stride=2,ceil_mode = True),                # output shape (x,128,2238)
-        )
-        self.out = nn.Linear(3276 , 2)   # fully connected layer, output 10 classes
-
-    def forward(self, x):
-        x = self.conv1(x)
-        x = self.conv2(x)
-        x = self.conv3(x)
-        x = x.view(x.size(0), -1)
-        output = self.out(x)
-        return output  
-
-
-# cnn = CNN()
-# optimizer = torch.optim.Adam(cnn.parameters(), lr=LR)   # optimize all cnn parameters
-# loss_func = nn.CrossEntropyLoss()                       # the target label is not one-hotted
-# if torch.cuda.is_available():
-#     cnn = cnn.cuda()
-#     loss_func = loss_func.cuda()
-# cnn = cnn.double()    
-# print(cnn)
-
-# In[10]:
-
-
-class SetTransformer(nn.Module):
-    def __init__(self, dim_input, num_outputs, dim_output,
-            num_inds=32, dim_hidden=128, num_heads=2, ln=False):
-        super(SetTransformer, self).__init__()
-        self.enc = nn.Sequential(
-                ISAB(dim_input, dim_hidden, num_heads, num_inds, ln=ln),
-                ISAB(dim_hidden, dim_hidden, num_heads, num_inds, ln=ln))
-        self.dec = nn.Sequential(
-                PMA(dim_hidden, num_heads, num_outputs, ln=ln),
-                SAB(dim_hidden, dim_hidden, num_heads, ln=ln),
-                SAB(dim_hidden, dim_hidden, num_heads, ln=ln),
-                nn.Linear(dim_hidden, dim_output))
-
-    def forward(self, X):
-        return self.dec(self.enc(X))
-
-
-# In[19]:
-
-
-trans = SetTransformer(3273,2,1)
-optimizer = torch.optim.Adam(trans.parameters(), lr=LR)   
-loss_func = nn.L1Loss()                      
-if torch.cuda.is_available():
-    loss_func = loss_func.cuda()
-    trans = trans.cuda()
-trans = trans.double()
-print(trans)
-
-
-# In[20]:
 
 
 class CNN_Trans(nn.Module):
-    def __init__(self, dim_input, num_outputs, dim_output,
-            num_inds=32, dim_hidden=128, num_heads=4, ln=False):
+    def __init__(self):
         super(CNN_Trans, self).__init__()
         self.conv1 = nn.Sequential(         # input shape (x,1, 8949)
             nn.Conv1d(
@@ -252,46 +139,15 @@ class CNN_Trans(nn.Module):
         return self.dec(self.enc(x))
 
 
-# cnntrans = CNN_Trans(3276,1,2)
-# optimizer = torch.optim.Adam(cnntrans.parameters(), lr=LR)   
-# loss_func = nn.L1Loss()                      
-# if torch.cuda.is_available():
-#     loss_func = loss_func.cuda()
-#     cnntrans = cnntrans.cuda()
-# cnntrans = cnntrans.double()
-# print(cnntrans)
+cnntrans = CNN_Trans()
+optimizer = torch.optim.Adam(cnntrans.parameters(), lr=LR)   
+loss_func = nn.L1Loss()                      
+if torch.cuda.is_available():
+    loss_func = loss_func.cuda()
+    cnntrans = cnntrans.cuda()
+cnntrans = cnntrans.double()
+fprint(cnntrans)
 
-# In[21]:
-
-
-class SmallSetTransformer(nn.Module):
-    def __init__(self,):
-        super().__init__()
-        self.enc = nn.Sequential(
-            SAB(dim_in=1, dim_out=64, num_heads=4),
-            SAB(dim_in=64, dim_out=64, num_heads=4),
-        )
-        self.dec = nn.Sequential(
-            PMA(dim=64, num_heads=4, num_seeds=1),
-            nn.Linear(in_features=64, out_features=2),
-        )
-
-    def forward(self, x):
-        x = self.enc(x)
-        x = self.dec(x)
-        return x.squeeze(-1)
-
-
-# smalltrans = SmallSetTransformer()
-# optimizer = torch.optim.Adam(smalltrans.parameters(), lr=LR)   
-# loss_func = nn.L1Loss()                      
-# if torch.cuda.is_available():
-#     loss_func = loss_func.cuda()
-#     smalltrans = smalltrans.cuda()
-# smalltrans = smalltrans.double()
-# print(smalltrans)
-
-# In[22]:
 
 
 def test(model):
@@ -313,7 +169,7 @@ def test(model):
             correct += (predicted == labels).sum().item()
            # print(total,correct)
 
-        print('Train Accuracy of the model on the train rna: {} %'.format((correct / total) * 100))
+        fprint('Train Accuracy of the model on the train rna: {} %'.format((correct / total) * 100))
     with torch.no_grad():
         correct = 0
         total = 0
@@ -331,10 +187,7 @@ def test(model):
             correct += (predicted == labels).sum().item()
     #print(total,correct)
 
-        print('Test Accuracy of the model on the test rna: {} %'.format((correct / total) * 100))
-
-
-# In[23]:
+        fprint('Test Accuracy of the model on the test rna: {} %'.format((correct / total) * 100))
 
 
 def train(model): 
@@ -368,48 +221,13 @@ def train(model):
             correct = (predicted == labels).sum().item()
             train_acc.append(correct / total)
             if i % 100 == 0:
-                print('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}, Accuracy: {:.2f}%'
+                fprint('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}, Accuracy: {:.2f}%'
                         .format(epoch + 1, num_epoch , i + 1, total_step, loss.item(),
                                 (correct / total) * 100))
         test(model)
 
 
-# In[ ]:
-
-
 train_losses = []
 train_acc = []
 test_acc = []
-train(trans)
-
-
-# In[ ]:
-
-
-plt.plot(train_losses, label='Training loss')
-plt.plot(train_acc, label='Training accuracy')
-plt.legend()
-plt.show()
-
-
-# In[ ]:
-
-
-
-#plt.plot(train_acc[200:], label='Training accuracy')
-plt.legend()
-plt.show()
-
-
-# In[ ]:
-
-
-# Save the model and plot
-torch.save(model.state_dict(), MODEL_STORE_PATH + 'conv_net_model.ckpt')
-
-
-# In[ ]:
-
-
-
-
+train(cnntrans)
