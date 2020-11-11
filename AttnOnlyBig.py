@@ -21,7 +21,7 @@ from torch.utils.data import Dataset, DataLoader
 from module import *
 
 def fprint(txtt):
-    f = open(r"/uac/cprj/cprj2716/train2.txt","a+")
+    f = open(r"/uac/cprj/cprj2716/train4.txt","a+")
     try:
         f.write(str(txtt))
     except:
@@ -85,35 +85,10 @@ train_loader = DataLoader(dataset=train_dataset, batch_size=batch_size, shuffle=
 test_loader = DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=False)
 
 
-
-
-
-class CNN_Trans(nn.Module):
+class SetTransformer(nn.Module):
     def __init__(self, dim_input, num_outputs, dim_output,
-            num_inds=32, dim_hidden=128, num_heads=4, ln=False):
-        super(CNN_Trans, self).__init__()
-        self.conv1 = nn.Sequential(         # input shape (x,1, 8949)
-            nn.Conv1d(
-                in_channels=1,              # input height
-                out_channels=4,            # n_filters
-                kernel_size=3,              # filter size
-                stride=1,                   # filter movement/step
-                padding=1,                  # if want same width and length of this image after con2d, padding=(kernel_size-1)/2 if stride=1
-            ),                              # output shape (x,64,8949)
-            nn.BatchNorm1d(4),
-            nn.ReLU(),                      # activation
-        )
-        self.conv2 = nn.Sequential(         # input shape (x,64, 8949)
-            nn.Conv1d(4,4,3,1,1),            
-            nn.ReLU(),  
-            nn.Dropout(p=0.2),
-            nn.MaxPool1d(kernel_size =2, stride=2,ceil_mode = True),                # output shape (x,64,4478)
-        )
-        self.conv3 = nn.Sequential(         # input shape (x,64,4478)
-            nn.Conv1d(4, 4, 3, 1, 1),     # output shape (x,128,4478)
-            nn.ReLU(),                      # activation
-            nn.MaxPool1d(kernel_size =2, stride=2,ceil_mode = True),                # output shape (x,128,2238)
-        )
+            num_inds=32, dim_hidden=128, num_heads=2, ln=False):
+        super(SetTransformer, self).__init__()
         self.enc = nn.Sequential(
                 ISAB(dim_input, dim_hidden, num_heads, num_inds, ln=ln),
                 ISAB(dim_hidden, dim_hidden, num_heads, num_inds, ln=ln))
@@ -123,25 +98,17 @@ class CNN_Trans(nn.Module):
                 SAB(dim_hidden, dim_hidden, num_heads, ln=ln),
                 nn.Linear(dim_hidden, dim_output))
 
-    def forward(self, x):
-        x = self.conv1(x)
-        x = self.conv2(x)
-        x = self.conv3(x)
-        x = x.view(x.size(0), -1)
-        x = x.reshape(-1,3276,1)
-        return self.dec(self.enc(x))
+    def forward(self, X):
+        return self.dec(self.enc(X))
 
-
-cnntrans = CNN_Trans(1,1,2)
-optimizer = torch.optim.Adam(cnntrans.parameters(), lr=LR)   
+trans = SetTransformer(1,2,1)
+optimizer = torch.optim.Adam(trans.parameters(), lr=LR)   
 loss_func = nn.L1Loss()                      
 if torch.cuda.is_available():
     loss_func = loss_func.cuda()
-    cnntrans = cnntrans.cuda()
-cnntrans = cnntrans.double()
-fprint(cnntrans)
-
-
+    trans = trans.cuda()
+trans = trans.double()
+print(trans)
 
 def test(model):
     model.eval()
@@ -154,6 +121,7 @@ def test(model):
                 rna = rna.cuda()
                 labels = labels.cuda()
             labels = labels.reshape(-1,2)
+            rna = rna.reshape(-1,3273,1)
             outputs = model(rna)
             outputs = outputs.reshape(-1,2)
             _, predicted = torch.max(outputs.data, 1)
@@ -172,6 +140,7 @@ def test(model):
                 rna = rna.cuda()
                 labels = labels.cuda()
             labels = labels.reshape(-1,2)
+            rna = rna.reshape(-1,3273,1)
             outputs = model(rna)
             outputs = outputs.reshape(-1,2)
             _, predicted = torch.max(outputs.data, 1)
@@ -194,6 +163,7 @@ def train(model):
             if torch.cuda.is_available():
                 rna = rna.cuda()
                 labels = labels.cuda()
+            rna = rna.reshape(-1,3273,1)
             outputs = model(rna)
             #print(outputs)
             outputs = outputs.reshape(-1,2)
