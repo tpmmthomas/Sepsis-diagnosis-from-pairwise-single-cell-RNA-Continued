@@ -9,7 +9,7 @@ import gzip
 import csv 
 
 def fprint(txtt):
-    f = open(r"/uac/cprj/cprj2716/dp5.txt","a+")
+    f = open(r"/uac/cprj/cprj2716/tryval.txt","a+")
     f.write(str(txtt))
     f.write("\n")
     f.close()
@@ -21,7 +21,7 @@ ytrain = r"/research/dept8/estr3108/cprj2716/training_label.csv.gz"
 xtest = r"/research/dept8/estr3108/cprj2716/testing_sample.csv.gz"
 ytest = r"/research/dept8/estr3108/cprj2716/testing_label.csv.gz"
 rnaname = r"/research/dept8/estr3108/cprj2716/rna_name.csv.gz"
-fdrn = r"/research/dept8/estr3108/cprj2716/P_fdr.csv.gz"
+fdrn = r"/research/dept8/estr3108/cprj2716/P_fdr2.csv.gz"
 
 
 samplesdf = pd.DataFrame()
@@ -63,26 +63,12 @@ fprint(y_test.shape)
 fprint(rna_name.shape)
 fprint(P_fdr.shape)
 
-# select RNAs with small P_fdr as the input
-i = 0
-idx = []
-for fdr in P_fdr:
-    fprint(fdr)
-    if fdr > 0.1:
-        idx.append(i)
-    i = i + 1
-
-P_fdr = np.delete(P_fdr, idx)
-
-fprint("Deleted fdr > 0.1")
-fprint(P_fdr.shape)
 
 # select RNAs with small P_fdr as the input
 i = 0
 idx = []
 for fdr in P_fdr:
-    fprint(fdr)
-    if fdr > 0.01:
+    if fdr > 0.005:
         idx.append(i)
     i = i + 1
 
@@ -101,22 +87,22 @@ fprint(rna_name.shape)
 
 # Save all files
 df = pd.DataFrame(P_fdr)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/P_fdr2.csv.gz",index=False,sep=",",compression="gzip")
+df.to_csv(r"/research/dept8/estr3108/cprj2716/P_fdr3.csv.gz",index=False,sep=",",compression="gzip")
 fprint("Saved1")
 df = pd.DataFrame(x_train)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/training_sample2.csv.gz",index=False,sep=",",compression="gzip")
+df.to_csv(r"/research/dept8/estr3108/cprj2716/training_sample3.csv.gz",index=False,sep=",",compression="gzip")
 fprint("Saved2")
 df = pd.DataFrame(x_test)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/testing_sample2.csv.gz",index=False,sep=",",compression="gzip")
+df.to_csv(r"/research/dept8/estr3108/cprj2716/testing_sample3.csv.gz",index=False,sep=",",compression="gzip")
 fprint("Saved3")
 df = pd.DataFrame(y_train)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/training_label2.csv.gz",index=False,sep=",",compression="gzip")
+df.to_csv(r"/research/dept8/estr3108/cprj2716/training_label3.csv.gz",index=False,sep=",",compression="gzip")
 fprint("Saved4")
 df = pd.DataFrame(y_test)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/testing_label2.csv.gz",index=False,sep=",",compression="gzip")
+df.to_csv(r"/research/dept8/estr3108/cprj2716/testing_label3.csv.gz",index=False,sep=",",compression="gzip")
 df = pd.DataFrame(rna_name)
 fprint("Saved5")
-df.to_csv(r"/research/dept8/estr3108/cprj2716/rna_name2.csv.gz",index=False,sep=",",compression="gzip")
+df.to_csv(r"/research/dept8/estr3108/cprj2716/rna_name3.csv.gz",index=False,sep=",",compression="gzip")
 fprint("Saved6")
 
 # Checking

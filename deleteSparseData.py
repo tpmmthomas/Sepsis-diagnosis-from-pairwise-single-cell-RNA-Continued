@@ -9,18 +9,18 @@ import gzip
 import csv 
 
 def fprint(txtt):
-    f = open(r"/uac/cprj/cprj2716/sparse.txt","a+")
+    f = open(r"/uac/cprj/cprj2716/tryval.txt","a+")
     f.write(str(txtt))
     f.write("\n")
     f.close()
 
 fprint("start") 
-
-xtrain = r"/research/dept8/estr3108/cprj2716/training_sample2.csv.gz"
+# org all 2. When need 0.1 remember change back.  This is 0.005.
+xtrain = r"/research/dept8/estr3108/cprj2716/training_sample3.csv.gz"
 ytrain = r"/research/dept8/estr3108/cprj2716/training_label2_int2.csv.gz"
-xtest = r"/research/dept8/estr3108/cprj2716/testing_sample2.csv.gz"
+xtest = r"/research/dept8/estr3108/cprj2716/testing_sample3.csv.gz"
 ytest = r"/research/dept8/estr3108/cprj2716/testing_label2_int2.csv.gz"
-rnaname = r"/research/dept8/estr3108/cprj2716/rna_name2.csv.gz"
+rnaname = r"/research/dept8/estr3108/cprj2716/rna_name3.csv.gz"
 
 
 samplesdf = pd.DataFrame()
@@ -131,19 +131,19 @@ fprint(rna_name.shape)
 # Save all files
 
 df = pd.DataFrame(x_train)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/training_sample_NoSparse.csv.gz",index=False,sep=",",compression="gzip")
+df.to_csv(r"/research/dept8/estr3108/cprj2716/training_sample_3s.csv.gz",index=False,sep=",",compression="gzip")
 fprint("Saved2")
 df = pd.DataFrame(x_test)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/testing_sample2_NoSparse.csv.gz",index=False,sep=",",compression="gzip")
+df.to_csv(r"/research/dept8/estr3108/cprj2716/testing_sample2_3s.csv.gz",index=False,sep=",",compression="gzip")
 fprint("Saved3")
 df = pd.DataFrame(y_train)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/training_label_NoSparse.csv.gz",index=False,sep=",",compression="gzip")
+df.to_csv(r"/research/dept8/estr3108/cprj2716/training_label_3s.csv.gz",index=False,sep=",",compression="gzip")
 fprint("Saved4")
 df = pd.DataFrame(y_test)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/testing_label_NoSparse.csv.gz",index=False,sep=",",compression="gzip")
+df.to_csv(r"/research/dept8/estr3108/cprj2716/testing_label_3s.csv.gz",index=False,sep=",",compression="gzip")
 df = pd.DataFrame(rna_name)
 fprint("Saved5")
-df.to_csv(r"/research/dept8/estr3108/cprj2716/rna_name_NoSparse.csv.gz",index=False,sep=",",compression="gzip")
+df.to_csv(r"/research/dept8/estr3108/cprj2716/rna_name_3s.csv.gz",index=False,sep=",",compression="gzip")
 fprint("Saved6")
 
 # Checking
