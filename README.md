@@ -9,8 +9,8 @@ Store all related codes regarding this project.
  
  
  ## Model Training
-`seriesTrCNN_3s` contains related codes for our chosen model.   
+`3s_series_trTran_CNN` contains related codes for our chosen model.   
 
  ## Model Comparison
- Other modules are codes for training other models for comparison.
+ Other files are codes for training other models for comparison.
 
