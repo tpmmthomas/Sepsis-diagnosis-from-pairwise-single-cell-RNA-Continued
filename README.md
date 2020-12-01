@@ -7,3 +7,10 @@ Store all related codes regarding this project.
 `changefdrlimit.py` changes the Fdr Threshold during experiment.   
 `deleteSparseData.py` changes the Sparse Threshold during experiment.   
  
+ 
+ ## Model Training
+`seriesTrCNN_3s` contains related codes for our chosen model.   
+
+ ## Model Comparison
+ Other modules are codes for training other models for comparison.
+
