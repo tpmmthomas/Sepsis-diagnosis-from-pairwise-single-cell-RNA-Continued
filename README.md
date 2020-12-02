@@ -2,10 +2,15 @@
 
 Store all related codes regarding this project.
 .
-Basically readdata.py is the data processing stage.
-Those ipynb files are for training.
+## Data PreProcessing
+`readdata.py` contains related codes for data preprocessing stage.   
+`changefdrlimit.py` changes the Fdr Threshold during experiment.   
+`deleteSparseData.py` changes the Sparse Threshold during experiment.   
+ 
+ 
+ ## Model Training
+`3s_series_trTran_CNN` contains related codes for our chosen model.   
 
+ ## Model Comparison
+ Other files are codes for training other models for comparison.
 
-UPDATE: changefdrlimit further chooses data with fdr <=0.01. All files are suffixed with 2.
-
-UPDATE 2: DeleteSparse data deletes rows and columns with over 90% 0.
