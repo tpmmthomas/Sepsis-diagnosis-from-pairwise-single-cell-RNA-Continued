@@ -8,11 +8,8 @@ from sklearn.model_selection import train_test_split
 import gzip
 import csv 
 
-sample_transposed_f = r"/research/dept8/estr3108/cprj2716/out_tr.csv.gz" #transposed so each row is a sample
-label_f = r"/research/dept8/estr3108/cprj2716/labely.csv.gz"
-
-#sample_transposed_f = r"C:/Users/TPMMTHOMAS/Documents/GitHub/ESTR3108-Sepsis-diagnosis-from-pairwise-single-cell-RNA/data/out_tr.csv.gz" #transposed so each row is a sample
-#label_f = r"C:/Users/TPMMTHOMAS/Documents/GitHub/ESTR3108-Sepsis-diagnosis-from-pairwise-single-cell-RNA/data/labely.csv.gz"
+sample_f = r"/uac/cprj/cprj2716/scp_gex_matrix.csv.gz" 
+label_f = r"/uac/cprj/cprj2716/scp_meta.txt"
 
 def fprint(txtt):
     f = open(r"/uac/cprj/cprj2716/dp.txt","a+")
@@ -22,43 +19,56 @@ def fprint(txtt):
 
 fprint("start") 
 
-#read csv file, store in numpy
-
-label = np.genfromtxt(label_f, delimiter=',', dtype=None, encoding=None,skip_header=0) 
-fprint("input label")
-
+#read data
 samplesdf = pd.DataFrame()
-for df in  pd.read_csv(sample_transposed_f,compression ="gzip", chunksize = 1000, header = 1):
+for df in  pd.read_csv(sample_f,compression ="gzip", chunksize = 1000, header = 0):
     samplesdf = samplesdf.append(df)
+samplesdf = samplesdf.T
 samples = samplesdf.to_numpy()
+samples = samples[1:]
+
+labels_text = np.array([])
+i = 0
+with open(label_f) as rawlabel:
+    label_reader = csv.reader(rawlabel, delimiter='\t')
+    for labels in label_reader:
+        if i>=2:
+            labels_text = np.append(labels_text,[labels[3]])
+        i = i + 1
 
 fprint("Samples ")
 fprint(samples.shape)
 fprint("Labels ")
-fprint(label.shape)
+fprint(labels_text.shape)
 
-#Get RNA names
-rna_names = pd.read_csv(sample_transposed_f,compression ="gzip", nrows=1 , header = 0)
-rna_names = rna_names.to_numpy()
-samples = samples.astype('float64')
+#convert labels_text into corresponding labels(0: non-sepsis, 1: sepsis)
+labels = np.array([])
+num1=0
+num0=0
+for lb in labels_text:
+    if lb == "Int-URO" or lb == "URO" or lb == "Bac-SEP" or lb == "ICU-SEP":
+        labels = np.append(labels,[1])
+        num1 = num1 + 1
+    else:
+        labels = np.append(labels,[0])
+        num0 = num0 + 1
 
-fprint("Samples ")
-fprint(samples.shape)
-fprint("Labels ")
-fprint(label.shape)
+fprint("Converted to label in numbers")
+fprint(labels.shape)
+fprint(num1)
+fprint(num0)
 
 
 #delete all zero columns and rows
 idx = np.argwhere(np.all(samples==0,axis = 0)) #find index of zero columns
 samples = np.delete(samples,idx,axis = 1) 
-rna_names = np.delete(rna_names,idx) 
 
-fprint("After deletion of columns:")e
+fprint("After deletion of columns:")
 fprint(samples.shape)
 
 idx = np.where(~samples.any(axis=1))[0]
 samples = np.delete(samples,idx,axis = 0)
-label = np.delete(label,idx)
+labels = np.delete(labels,idx)
 
 fprint("After deletion of rows:")
 fprint(samples.shape)
@@ -67,20 +77,8 @@ fprint("Labels check")
 fprint(label.shape)
 
 #split training and testing sample (x = sample, y = label)
-x_train,x_test,y_train,y_test = train_test_split(samples,label,test_size = 0.1, random_state = 41)
+x_train,x_test,y_train,y_test = train_test_split(samples,label,test_size = 0.1, random_state = 5)
 fprint("Split succcessful")
-
-#save 1 copy first
-df = pd.DataFrame(x_train)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/training_sample_raw.csv.gz",index=False,sep=" ",compression="gzip")
-df = pd.DataFrame(x_test)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/testing_sample_raw.csv.gz",index=False,sep=" ",compression="gzip")
-df = pd.DataFrame(y_train)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/training_label_raw.csv.gz",index=False,sep=" ",compression="gzip")
-df = pd.DataFrame(y_test)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/testing_label_raw.csv.gz",index=False,sep=" ",compression="gzip")
-df = pd.DataFrame(rna_names)
-df.to_csv(r"/reaksearch/dept8/estr3108/cprj2716/rna_names_raw.csv.gz",index=False,sep=" ",compression="gzip")
 
 #checking 
 fprint(x_train.shape)
@@ -93,7 +91,7 @@ i = 0
 idx = []
 for lb in y_train:
     fprint(lb)
-    if lb == "Control":
+    if lb == 0:
         idx.append(i)
     i = i + 1
 
@@ -107,10 +105,6 @@ fprint("Separation succcessful")
 fprint(con_sample.shape)
 fprint(case_sample.shape)
 
-df = pd.DataFrame(con_sample)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/con_sample.csv.gz",index=False,sep=" ",compression="gzip")
-df = pd.DataFrame(case_sample)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/case_sample.csv.gz",index=False,sep=" ",compression="gzip")
 
 #to avoid error, delete zero columns of case samples
 idx = np.argwhere(np.all(case_sample==0,axis = 0)) #find index of zero columns
@@ -119,15 +113,13 @@ idx = np.intersect1d(idx,idx2)
 case_sample = np.delete(case_sample,idx,axis = 1) 
 con_sample = np.delete(con_sample,idx,axis = 1) 
 x_train = np.delete(x_train,idx,axis = 1) 
-x_test = np.delete(x_test,idx,axis = 1) 
-rna_name = np.delete(rna_name,idx) 
+x_test = np.delete(x_test,idx,axis = 1)  
 
 fprint("After deletion")
 fprint(x_train.shape)
 fprint(x_test.shape)
 fprint(y_train.shape)
 fprint(y_test.shape)
-fprint(rna_name.shape)
 fprint(con_sample.shape)
 fprint(case_sample.shape)
 
@@ -138,18 +130,18 @@ rejected, P_fdr = fdrcorrection(pvalue, alpha=0.05, method='indep', is_sorted=Fa
 fprint("Value computed!")
 fprint(P_fdr.shape)
 
+
 # select RNAs with small P_fdr as the input
 i = 0
 idx = []
 for fdr in P_fdr:
     fprint(fdr)
-    if fdr > 0.1:
+    if fdr > 0.005:
         idx.append(i)
     i = i + 1
 
 x_train = np.delete(x_train,idx,1)
 x_test = np.delete(x_test,idx,1)
-rna_name = np.delete(rna_name,idx)
 
 
 fprint("Filter succcessful")
@@ -159,22 +151,92 @@ fprint(x_train.shape)
 fprint(x_test.shape)
 fprint(y_train.shape)
 fprint(y_test.shape)
-fprint(rna_name.shape)
+
+
+#Delete sparse sample
+
+idx = []
+i = 0
+for samples in x_train :
+    num0 = 0
+    for col in samples:
+        if col == 0:
+            num0 = num0 + 1
+    if num0/len(samples)>0.9:
+        idx.append(i)
+    i = i + 1
+
+x_train = np.delete(x_train, idx,axis=0)
+y_train = np.delete(y_train,idx,axis=0)
+
+fprint("Deleted x_train sparse.")
+fprint(x_train.shape)
+fprint(y_train.shape)
+
+# Delete sparse sample
+
+idx = []
+i = 0
+for samples in x_test :
+    num0 = 0
+    for col in samples:
+        if col == 0:
+            num0 = num0 + 1
+    if num0/len(samples)>0.9:
+        idx.append(i)
+    i = i + 1
+
+x_test = np.delete(x_test, idx,axis=0)
+y_test = np.delete(y_test, idx,axis=0)
+
+fprint("Deleted x_test sparse.")
+fprint(x_test.shape)
+fprint(y_test.shape)
+
+#Take transpose of everything
+allsample = np.vstack((x_train,x_test))
+allsample = np.transpose(allsample)
+fprint("Taken transpose.")
+fprint(allsample.shape)
+
+
+# Delete sparse sample
+
+idx = []
+i = 0
+for rna in allsample :
+    num0 = 0
+    for col in rna:
+        if col == 0:
+            num0 = num0 + 1
+    if num0/len(rna)>0.9:
+        idx.append(i)
+    i = i + 1
+
+fprint("Number of cols found")
+fprint(len(idx))
+x_train = np.delete(x_train,idx,axis=1)
+x_test = np.delete(x_test,idx,axis=1)
+
+fprint("Deleted col sparse.")
+fprint(x_train.shape)
+fprint(x_test.shape)
+fprint(y_train.shape)
+fprint(y_test.shape)
 
 
 # Save all files
 df = pd.DataFrame(P_fdr)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/P_fdr.csv.gz",index=False,sep=",",compression="gzip")
+df.to_csv(r"/uac/cprj/cprj2716/NEW_P_fdr.csv.gz",index=False,sep=",",compression="gzip")
 df = pd.DataFrame(x_train)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/training_sample.csv.gz",index=False,sep=",",compression="gzip")
+df.to_csv(r"/uac/cprj/cprj2716/NEW_training_sample.csv.gz",index=False,sep=",",compression="gzip")
 df = pd.DataFrame(x_test)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/testing_sample.csv.gz",index=False,sep=",",compression="gzip")
+df.to_csv(r"/uac/cprj/cprj2716/NEW_testing_sample.csv.gz",index=False,sep=",",compression="gzip")
 df = pd.DataFrame(y_train)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/training_label.csv.gz",index=False,sep=",",compression="gzip")
+df.to_csv(r"/uac/cprj/cprj2716/NEW_training_label.csv.gz",index=False,sep=",",compression="gzip")
 df = pd.DataFrame(y_test)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/testing_label.csv.gz",index=False,sep=",",compression="gzip")
-df = pd.DataFrame(rna_name)
-df.to_csv(r"/research/dept8/estr3108/cprj2716/rna_name.csv.gz",index=False,sep=",",compression="gzip")
+df.to_csv(r"/uac/cprj/cprj2716/NEW_testing_label.csv.gz",index=False,sep=",",compression="gzip")
+
 
 # Checking
 
