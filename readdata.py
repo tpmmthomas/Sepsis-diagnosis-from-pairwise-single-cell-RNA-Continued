@@ -8,11 +8,11 @@ from sklearn.model_selection import train_test_split
 import gzip
 import csv 
 
-sample_f = r"/uac/cprj/cprj2716/scp_gex_matrix.csv.gz" 
-label_f = r"/uac/cprj/cprj2716/scp_meta.txt"
+sample_f = r"data/scp_gex_matrix.csv.gz" 
+label_f = r"data/scp_meta.txt"
 
 def fprint(txtt):
-    f = open(r"/uac/cprj/cprj2716/dp.txt","a+")
+    f = open(r"dp.txt","a+")
     f.write(str(txtt))
     f.write("\n")
     f.close()
@@ -227,15 +227,15 @@ fprint(y_test.shape)
 
 # Save all files
 df = pd.DataFrame(P_fdr)
-df.to_csv(r"/uac/cprj/cprj2716/NEW_P_fdr.csv.gz",index=False,sep=",",compression="gzip")
+df.to_csv(r"data/NEW_P_fdr.csv.gz",index=False,sep=",",compression="gzip")
 df = pd.DataFrame(x_train)
-df.to_csv(r"/uac/cprj/cprj2716/NEW_training_sample.csv.gz",index=False,sep=",",compression="gzip")
+df.to_csv(r"data/NEW_training_sample.csv.gz",index=False,sep=",",compression="gzip")
 df = pd.DataFrame(x_test)
-df.to_csv(r"/uac/cprj/cprj2716/NEW_testing_sample.csv.gz",index=False,sep=",",compression="gzip")
+df.to_csv(r"data/NEW_testing_sample.csv.gz",index=False,sep=",",compression="gzip")
 df = pd.DataFrame(y_train)
-df.to_csv(r"/uac/cprj/cprj2716/NEW_training_label.csv.gz",index=False,sep=",",compression="gzip")
+df.to_csv(r"data/NEW_training_label.csv.gz",index=False,sep=",",compression="gzip")
 df = pd.DataFrame(y_test)
-df.to_csv(r"/uac/cprj/cprj2716/NEW_testing_label.csv.gz",index=False,sep=",",compression="gzip")
+df.to_csv(r"data/NEW_testing_label.csv.gz",index=False,sep=",",compression="gzip")
 
 
 # Checking
