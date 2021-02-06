@@ -24,22 +24,37 @@ samplesdf = pd.DataFrame()
 for df in  pd.read_csv(sample_f,compression ="gzip", chunksize = 1000, header = 0):
     samplesdf = samplesdf.append(df)
 samplesdf = samplesdf.T
+samples_name = samplesdf.index.values
+samples_name = samples_name[1:]
 samples = samplesdf.to_numpy()
 samples = samples[1:]
 
-labels_text = np.array([])
+labels_name = np.array([])
+labels_temp = np.array([])
 i = 0
 with open(label_f) as rawlabel:
     label_reader = csv.reader(rawlabel, delimiter='\t')
     for labels in label_reader:
         if i>=2:
-            labels_text = np.append(labels_text,[labels[3]])
+            labels_name = np.append(labels_name,[labels[0]])
+            labels_temp = np.append(labels_text,[labels[3]])
         i = i + 1
 
+labels_text = np.array([])
+#find correct labels for each element in samples
+for lb in samples_name:
+    idx = np.where(labels_name == lb)
+    if len(idx[0]) > 1:
+        fprint("Warning! Have duplicate.")
+    elif len(idx[0]) == 0:
+        fprint("Warning! No corresponding entry.")
+    labels_text = np.append(labels_text, labels_temp[idx[0][0]])
+    
 fprint("Samples ")
 fprint(samples.shape)
 fprint("Labels ")
 fprint(labels_text.shape)
+fprint(labels_text[0])
 
 #convert labels_text into corresponding labels(0: non-sepsis, 1: sepsis)
 labels = np.array([])
