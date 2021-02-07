@@ -3,13 +3,13 @@ import pandas as pd
 import scipy.stats as stats
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.svm import SVC 
-from statsmodels.stats.multitest import fdrcorrection
+from statsmodelsSelf  import fdrcorrection
 from sklearn.model_selection import train_test_split
 import gzip
 import csv 
 
-sample_f = r"data/scp_gex_matrix.csv.gz" 
-label_f = r"data/scp_meta.txt"
+sample_f = r"scp_gex_matrix.csv.gz" 
+label_f = r"scp_meta.txt"
 
 def fprint(txtt):
     f = open(r"dp.txt","a+")
@@ -17,18 +17,19 @@ def fprint(txtt):
     f.write("\n")
     f.close()
 
-fprint("start") 
+fprint("start123") 
 
 #read data
 samplesdf = pd.DataFrame()
 for df in  pd.read_csv(sample_f,compression ="gzip", chunksize = 1000, header = 0):
+    fprint("check")
     samplesdf = samplesdf.append(df)
 samplesdf = samplesdf.T
 samples_name = samplesdf.index.values
 samples_name = samples_name[1:]
-samples = samplesdf.to_numpy()
+samples = samplesdf.values
 samples = samples[1:]
-
+fprint("First!")
 labels_name = np.array([])
 labels_temp = np.array([])
 i = 0
@@ -37,9 +38,9 @@ with open(label_f) as rawlabel:
     for labels in label_reader:
         if i>=2:
             labels_name = np.append(labels_name,[labels[0]])
-            labels_temp = np.append(labels_text,[labels[3]])
+            labels_temp = np.append(labels_temp,[labels[3]])
         i = i + 1
-
+fprint("Second!")
 labels_text = np.array([])
 #find correct labels for each element in samples
 for lb in samples_name:
@@ -81,7 +82,7 @@ samples = np.delete(samples,idx,axis = 1)
 fprint("After deletion of columns:")
 fprint(samples.shape)
 
-idx = np.where(~samples.any(axis=1))[0]
+idx = np.where(np.all(np.isclose(samples,0),axis=1))
 samples = np.delete(samples,idx,axis = 0)
 labels = np.delete(labels,idx)
 
@@ -89,10 +90,10 @@ fprint("After deletion of rows:")
 fprint(samples.shape)
 
 fprint("Labels check")
-fprint(label.shape)
+fprint(labels.shape)
 
 #split training and testing sample (x = sample, y = label)
-x_train,x_test,y_train,y_test = train_test_split(samples,label,test_size = 0.1, random_state = 5)
+x_train,x_test,y_train,y_test = train_test_split(samples,labels,test_size = 0.1, random_state = 5)
 fprint("Split succcessful")
 
 #checking 
@@ -133,8 +134,7 @@ x_test = np.delete(x_test,idx,axis = 1)
 fprint("After deletion")
 fprint(x_train.shape)
 fprint(x_test.shape)
-fprint(y_train.shape)
-fprint(y_test.shape)
+
 fprint(con_sample.shape)
 fprint(case_sample.shape)
 
