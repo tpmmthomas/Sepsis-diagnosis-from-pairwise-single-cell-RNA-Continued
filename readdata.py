@@ -20,10 +20,7 @@ def fprint(txtt):
 fprint("start123") 
 
 #read data
-samplesdf = pd.DataFrame()
-for df in  pd.read_csv(sample_f,compression ="gzip", chunksize = 1000, header = 0):
-    fprint("check")
-    samplesdf = samplesdf.append(df)
+samplesdf =  pd.read_csv(sample_f,compression ="gzip", header = 0)
 samplesdf = samplesdf.T
 samples_name = samplesdf.index.values
 samples_name = samples_name[1:]
@@ -75,23 +72,6 @@ fprint(num1)
 fprint(num0)
 
 
-#delete all zero columns and rows
-idx = np.argwhere(np.all(samples==0,axis = 0)) #find index of zero columns
-samples = np.delete(samples,idx,axis = 1) 
-
-fprint("After deletion of columns:")
-fprint(samples.shape)
-
-idx = np.where(np.all(np.isclose(samples,0),axis=1))
-samples = np.delete(samples,idx,axis = 0)
-labels = np.delete(labels,idx)
-
-fprint("After deletion of rows:")
-fprint(samples.shape)
-
-fprint("Labels check")
-fprint(labels.shape)
-
 #split training and testing sample (x = sample, y = label)
 x_train,x_test,y_train,y_test = train_test_split(samples,labels,test_size = 0.1, random_state = 5)
 fprint("Split succcessful")
@@ -106,7 +86,6 @@ fprint(y_test.shape)
 i = 0
 idx = []
 for lb in y_train:
-    fprint(lb)
     if lb == 0:
         idx.append(i)
     i = i + 1
@@ -116,11 +95,9 @@ mask = np.ones(len(x_train), dtype=bool)
 mask[idx,] = False
 con_sample,case_sample = x_train[idx], x_train[mask]
 
-
 fprint("Separation succcessful")
 fprint(con_sample.shape)
 fprint(case_sample.shape)
-
 
 #to avoid error, delete zero columns of case samples
 idx = np.argwhere(np.all(case_sample==0,axis = 0)) #find index of zero columns
@@ -138,6 +115,9 @@ fprint(x_test.shape)
 fprint(con_sample.shape)
 fprint(case_sample.shape)
 
+con_sample = np.array(con_sample,dtype=np.float32)
+case_sample = np.array(case_sample,dtype=np.float32)
+
 # optain stat value
 t_stat,pvalue = stats.ttest_ind(con_sample, case_sample, axis = 0, equal_var=True, nan_policy='raise')
 rejected, P_fdr = fdrcorrection(pvalue, alpha=0.05, method='indep', is_sorted=False)
@@ -150,11 +130,9 @@ fprint(P_fdr.shape)
 i = 0
 idx = []
 for fdr in P_fdr:
-    fprint(fdr)
     if fdr > 0.005:
         idx.append(i)
     i = i + 1
-
 x_train = np.delete(x_train,idx,1)
 x_test = np.delete(x_test,idx,1)
 
@@ -180,7 +158,6 @@ for samples in x_train :
     if num0/len(samples)>0.9:
         idx.append(i)
     i = i + 1
-
 x_train = np.delete(x_train, idx,axis=0)
 y_train = np.delete(y_train,idx,axis=0)
 
@@ -200,7 +177,6 @@ for samples in x_test :
     if num0/len(samples)>0.9:
         idx.append(i)
     i = i + 1
-
 x_test = np.delete(x_test, idx,axis=0)
 y_test = np.delete(y_test, idx,axis=0)
 
@@ -227,7 +203,6 @@ for rna in allsample :
     if num0/len(rna)>0.9:
         idx.append(i)
     i = i + 1
-
 fprint("Number of cols found")
 fprint(len(idx))
 x_train = np.delete(x_train,idx,axis=1)
