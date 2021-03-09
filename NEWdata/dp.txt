@@ -1,0 +1,49 @@
+start123
+First!
+Second!
+Samples 
+(122557, 22858)
+Labels 
+(122557,)
+Control
+Converted to label in numbers
+(122557,)
+43449
+79108
+Split succcessful
+(110301, 22858)
+(12256, 22858)
+(110301,)
+(12256,)
+Now mask.
+Separation succcessful
+(71137, 22858)
+(39164, 22858)
+After deletion
+(110301, 22697)
+(12256, 22697)
+(71137, 22697)
+(39164, 22697)
+Value computed!
+(22697,)
+Filter succcessful
+(110301, 7964)
+(12256, 7964)
+(110301,)
+(12256,)
+Deleted x_train sparse.
+(38483, 7964)
+(38483,)
+Deleted x_test sparse.
+(4265, 7964)
+(4265,)
+Taken transpose.
+(7964, 42748)
+Number of cols found
+4934
+Deleted col sparse.
+(38483, 3030)
+(4265, 3030)
+(38483,)
+(4265,)
+Finish!

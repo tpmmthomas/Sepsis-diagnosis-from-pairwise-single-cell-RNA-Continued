@@ -45,14 +45,14 @@ class Mask(layers.Layer):
     """
     def call(self, inputs, **kwargs):
         if type(inputs) is list:  # true label is provided with shape = [None, n_classes], i.e. one-hot code.
-            assert len(inputs) == 2
             inputs, mask = inputs
         else:  # if no true label, mask by the max length of capsules. Mainly used for prediction
             # compute lengths of capsules
             x = tf.sqrt(tf.reduce_sum(tf.square(inputs), -1))
             # generate the mask which is a one-hot code.
             # mask.shape=[None, n_classes]=[None, num_capsule]
-            mask = tf.one_hot(indices=tf.argmax(x, 1), depth=x.shape[1])
+            #mask = tf.one_hot(indices=tf.argmax(x, 1), depth=x.shape[1])
+            mask = x
 
         # inputs.shape=[None, num_capsule, dim_capsule]
         # mask.shape=[None, num_capsule]
@@ -181,8 +181,8 @@ def PrimaryCap(inputs, dim_capsule, n_channels, kernel_size, strides, padding):
     :param n_channels: the number of types of capsules
     :return: output tensor, shape=[None, num_capsule, dim_capsule]
     """
-    output = layers.Conv2D(filters=dim_capsule*n_channels, kernel_size=kernel_size, strides=strides, padding=padding,
-                           name='primarycap_conv2d')(inputs)
+    output = layers.Conv1D(filters=dim_capsule*n_channels, kernel_size=kernel_size, strides=strides, padding=padding,
+                           name='primarycap_conv1d')(inputs)
     outputs = layers.Reshape(target_shape=[-1, dim_capsule], name='primarycap_reshape')(output)
     return layers.Lambda(squash, name='primarycap_squash')(outputs)
 
