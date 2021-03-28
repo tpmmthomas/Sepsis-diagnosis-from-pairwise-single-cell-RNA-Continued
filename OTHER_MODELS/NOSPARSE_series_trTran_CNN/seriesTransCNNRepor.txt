@@ -1,0 +1,88 @@
+2020-11-26 22:58:32.234469: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcuda.so.1
+2020-11-26 22:58:32.359611: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1561] Found device 0 with properties: 
+pciBusID: 0000:3b:00.0 name: TITAN RTX computeCapability: 7.5
+coreClock: 1.77GHz coreCount: 72 deviceMemorySize: 23.65GiB deviceMemoryBandwidth: 625.94GiB/s
+2020-11-26 22:58:32.362132: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+2020-11-26 22:58:32.397171: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10
+2020-11-26 22:58:32.417743: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcufft.so.10
+2020-11-26 22:58:32.422694: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcurand.so.10
+2020-11-26 22:58:32.464949: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusolver.so.10
+2020-11-26 22:58:32.470133: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusparse.so.10
+2020-11-26 22:58:32.538377: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7
+2020-11-26 22:58:32.540359: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1703] Adding visible gpu devices: 0
+2020-11-26 22:58:32.540670: I tensorflow/core/platform/cpu_feature_guard.cc:143] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 AVX512F FMA
+2020-11-26 22:58:32.561603: I tensorflow/core/platform/profile_utils/cpu_utils.cc:102] CPU Frequency: 2200000000 Hz
+2020-11-26 22:58:32.561844: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x7f20cc000b20 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2020-11-26 22:58:32.561888: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+2020-11-26 22:58:32.728085: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x3e91ca0 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+2020-11-26 22:58:32.728117: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): TITAN RTX, Compute Capability 7.5
+2020-11-26 22:58:32.731457: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1561] Found device 0 with properties: 
+pciBusID: 0000:3b:00.0 name: TITAN RTX computeCapability: 7.5
+coreClock: 1.77GHz coreCount: 72 deviceMemorySize: 23.65GiB deviceMemoryBandwidth: 625.94GiB/s
+2020-11-26 22:58:32.731516: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+2020-11-26 22:58:32.731529: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10
+2020-11-26 22:58:32.731539: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcufft.so.10
+2020-11-26 22:58:32.731550: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcurand.so.10
+2020-11-26 22:58:32.731560: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusolver.so.10
+2020-11-26 22:58:32.731570: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusparse.so.10
+2020-11-26 22:58:32.731580: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7
+2020-11-26 22:58:32.733251: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1703] Adding visible gpu devices: 0
+2020-11-26 22:58:32.733752: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.1
+2020-11-26 22:58:32.735977: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1102] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-11-26 22:58:32.735999: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1108]      0 
+2020-11-26 22:58:32.736006: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1121] 0:   N 
+2020-11-26 22:58:32.738213: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1247] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 22612 MB memory) -> physical GPU (device: 0, name: TITAN RTX, pci bus id: 0000:3b:00.0, compute capability: 7.5)
+2020-11-26 22:58:37.938380: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10
+2020-11-26 22:58:38.646393: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7
+done
+(29255, 3273)
+(29255, 1)
+(3241, 3273)
+(3241, 1)
+{0: 0.9648110282962865, 1: 1.0378529870867035}
+Epoch 1/20
+915/915 - 376s - loss: 0.5807 - accuracy: 0.6976 - val_loss: 0.4957 - val_accuracy: 0.7627
+Epoch 2/20
+915/915 - 378s - loss: 0.4508 - accuracy: 0.7853 - val_loss: 0.4420 - val_accuracy: 0.7890
+Epoch 3/20
+915/915 - 378s - loss: 0.3873 - accuracy: 0.8242 - val_loss: 0.3699 - val_accuracy: 0.8377
+Epoch 4/20
+915/915 - 378s - loss: 0.3410 - accuracy: 0.8494 - val_loss: 0.3184 - val_accuracy: 0.8587
+Epoch 5/20
+915/915 - 378s - loss: 0.3157 - accuracy: 0.8604 - val_loss: 0.2850 - val_accuracy: 0.8747
+Epoch 6/20
+915/915 - 378s - loss: 0.2852 - accuracy: 0.8768 - val_loss: 0.2920 - val_accuracy: 0.8781
+Epoch 7/20
+915/915 - 378s - loss: 0.2697 - accuracy: 0.8851 - val_loss: 0.2771 - val_accuracy: 0.8797
+Epoch 8/20
+915/915 - 379s - loss: 0.2494 - accuracy: 0.8948 - val_loss: 0.2936 - val_accuracy: 0.8735
+Epoch 9/20
+915/915 - 379s - loss: 0.2308 - accuracy: 0.9032 - val_loss: 0.2689 - val_accuracy: 0.8868
+Epoch 10/20
+915/915 - 379s - loss: 0.2128 - accuracy: 0.9092 - val_loss: 0.2733 - val_accuracy: 0.8871
+Epoch 11/20
+915/915 - 378s - loss: 0.1955 - accuracy: 0.9177 - val_loss: 0.2680 - val_accuracy: 0.8861
+Epoch 12/20
+915/915 - 379s - loss: 0.1875 - accuracy: 0.9231 - val_loss: 0.2771 - val_accuracy: 0.8911
+Epoch 13/20
+915/915 - 379s - loss: 0.1697 - accuracy: 0.9301 - val_loss: 0.2566 - val_accuracy: 0.8920
+Epoch 14/20
+915/915 - 379s - loss: 0.1554 - accuracy: 0.9370 - val_loss: 0.2845 - val_accuracy: 0.8957
+Epoch 15/20
+915/915 - 379s - loss: 0.1406 - accuracy: 0.9435 - val_loss: 0.2708 - val_accuracy: 0.9000
+Epoch 16/20
+915/915 - 378s - loss: 0.1314 - accuracy: 0.9458 - val_loss: 0.3231 - val_accuracy: 0.8926
+Epoch 17/20
+915/915 - 378s - loss: 0.1195 - accuracy: 0.9524 - val_loss: 0.2867 - val_accuracy: 0.8954
+Epoch 18/20
+915/915 - 378s - loss: 0.1076 - accuracy: 0.9567 - val_loss: 0.2673 - val_accuracy: 0.8982
+Epoch 19/20
+915/915 - 379s - loss: 0.1013 - accuracy: 0.9595 - val_loss: 0.2872 - val_accuracy: 0.9000
+Epoch 20/20
+915/915 - 379s - loss: 0.0924 - accuracy: 0.9627 - val_loss: 0.3179 - val_accuracy: 0.8926
+2020-11-27 01:05:10.246979: W tensorflow/python/util/util.cc:329] Sets are not currently considered sequences, but this may change in the future, so consider avoiding using them.
+WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/tensorflow/python/ops/resource_variable_ops.py:1817: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+AUPRC = 0.97
+f1_score = 0.89

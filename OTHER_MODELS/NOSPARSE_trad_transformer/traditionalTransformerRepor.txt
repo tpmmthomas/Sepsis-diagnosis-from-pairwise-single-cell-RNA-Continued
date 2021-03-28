@@ -1,0 +1,106 @@
+2020-11-27 13:26:18.006757: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcuda.so.1
+2020-11-27 13:26:18.087602: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: TITAN RTX major: 7 minor: 5 memoryClockRate(GHz): 1.77
+pciBusID: 0000:3b:00.0
+2020-11-27 13:26:18.090005: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.0
+2020-11-27 13:26:18.112527: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10.0
+2020-11-27 13:26:18.126992: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcufft.so.10.0
+2020-11-27 13:26:18.130603: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcurand.so.10.0
+2020-11-27 13:26:18.161723: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusolver.so.10.0
+2020-11-27 13:26:18.182215: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusparse.so.10.0
+2020-11-27 13:26:18.241824: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7
+2020-11-27 13:26:18.243805: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-11-27 13:26:18.244811: I tensorflow/core/platform/cpu_feature_guard.cc:142] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 AVX512F FMA
+2020-11-27 13:26:18.270061: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 2200000000 Hz
+2020-11-27 13:26:18.270662: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x4190260 executing computations on platform Host. Devices:
+2020-11-27 13:26:18.270684: I tensorflow/compiler/xla/service/service.cc:175]   StreamExecutor device (0): Host, Default Version
+2020-11-27 13:26:18.432868: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x41437f0 executing computations on platform CUDA. Devices:
+2020-11-27 13:26:18.432900: I tensorflow/compiler/xla/service/service.cc:175]   StreamExecutor device (0): TITAN RTX, Compute Capability 7.5
+2020-11-27 13:26:18.434009: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1618] Found device 0 with properties: 
+name: TITAN RTX major: 7 minor: 5 memoryClockRate(GHz): 1.77
+pciBusID: 0000:3b:00.0
+2020-11-27 13:26:18.434064: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.0
+2020-11-27 13:26:18.434076: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10.0
+2020-11-27 13:26:18.434086: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcufft.so.10.0
+2020-11-27 13:26:18.434096: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcurand.so.10.0
+2020-11-27 13:26:18.434106: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusolver.so.10.0
+2020-11-27 13:26:18.434115: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcusparse.so.10.0
+2020-11-27 13:26:18.434126: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudnn.so.7
+2020-11-27 13:26:18.435902: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1746] Adding visible gpu devices: 0
+2020-11-27 13:26:18.436954: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcudart.so.10.0
+2020-11-27 13:26:18.438872: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1159] Device interconnect StreamExecutor with strength 1 edge matrix:
+2020-11-27 13:26:18.438890: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1165]      0 
+2020-11-27 13:26:18.438895: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1178] 0:   N 
+2020-11-27 13:26:18.441505: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1304] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 22852 MB memory) -> physical GPU (device: 0, name: TITAN RTX, pci bus id: 0000:3b:00.0, compute capability: 7.5)
+2020-11-27 13:26:26.521271: I tensorflow/stream_executor/platform/default/dso_loader.cc:44] Successfully opened dynamic library libcublas.so.10.0
+done
+(29255, 3273)
+(29255, 1)
+(3241, 3273)
+(3241, 1)
+{0: 0.9648110282962865, 1: 1.0378529870867035}
+Train on 29255 samples, validate on 3241 samples
+Epoch 1/20
+29255/29255 - 256s - loss: 0.6031 - accuracy: 0.6884 - val_loss: 0.4540 - val_accuracy: 0.7868
+Epoch 2/20
+29255/29255 - 254s - loss: 0.4793 - accuracy: 0.7653 - val_loss: 0.5241 - val_accuracy: 0.7411
+Epoch 3/20
+29255/29255 - 254s - loss: 0.4406 - accuracy: 0.7924 - val_loss: 0.3873 - val_accuracy: 0.8247
+Epoch 4/20
+29255/29255 - 254s - loss: 0.4117 - accuracy: 0.8084 - val_loss: 0.3698 - val_accuracy: 0.8343
+Epoch 5/20
+29255/29255 - 254s - loss: 0.3812 - accuracy: 0.8255 - val_loss: 0.3601 - val_accuracy: 0.8371
+Epoch 6/20
+29255/29255 - 254s - loss: 0.3613 - accuracy: 0.8343 - val_loss: 0.3331 - val_accuracy: 0.8485
+Epoch 7/20
+29255/29255 - 254s - loss: 0.3431 - accuracy: 0.8467 - val_loss: 0.3274 - val_accuracy: 0.8565
+Epoch 8/20
+29255/29255 - 254s - loss: 0.3252 - accuracy: 0.8557 - val_loss: 0.3287 - val_accuracy: 0.8537
+Epoch 9/20
+29255/29255 - 254s - loss: 0.3091 - accuracy: 0.8639 - val_loss: 0.3356 - val_accuracy: 0.8556
+Epoch 10/20
+29255/29255 - 254s - loss: 0.2923 - accuracy: 0.8717 - val_loss: 0.2955 - val_accuracy: 0.8692
+Epoch 11/20
+29255/29255 - 254s - loss: 0.2777 - accuracy: 0.8785 - val_loss: 0.2895 - val_accuracy: 0.8673
+Epoch 12/20
+29255/29255 - 254s - loss: 0.2722 - accuracy: 0.8833 - val_loss: 0.2800 - val_accuracy: 0.8766
+Epoch 13/20
+29255/29255 - 254s - loss: 0.2499 - accuracy: 0.8929 - val_loss: 0.2712 - val_accuracy: 0.8824
+Epoch 14/20
+29255/29255 - 254s - loss: 0.2415 - accuracy: 0.8985 - val_loss: 0.2781 - val_accuracy: 0.8855
+Epoch 15/20
+29255/29255 - 254s - loss: 0.2269 - accuracy: 0.9054 - val_loss: 0.2834 - val_accuracy: 0.8815
+Epoch 16/20
+29255/29255 - 254s - loss: 0.2191 - accuracy: 0.9086 - val_loss: 0.2757 - val_accuracy: 0.8787
+Epoch 17/20
+29255/29255 - 254s - loss: 0.2071 - accuracy: 0.9127 - val_loss: 0.2762 - val_accuracy: 0.8861
+Epoch 18/20
+29255/29255 - 254s - loss: 0.1995 - accuracy: 0.9170 - val_loss: 0.2882 - val_accuracy: 0.8744
+Epoch 19/20
+29255/29255 - 254s - loss: 0.1853 - accuracy: 0.9224 - val_loss: 0.2645 - val_accuracy: 0.8895
+Epoch 20/20
+29255/29255 - 254s - loss: 0.1788 - accuracy: 0.9260 - val_loss: 0.2775 - val_accuracy: 0.8892
+2020-11-27 14:51:16.021946: W tensorflow/python/util/util.cc:299] Sets are not currently considered sequences, but this may change in the future, so consider avoiding using them.
+WARNING:tensorflow:From /uac/y19/khto9/.local/lib/python3.6/site-packages/tensorflow_core/python/ops/resource_variable_ops.py:1781: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+AUPRC = 0.96
+f1_score = 0.89
+Traceback (most recent call last):
+  File "/uac/y19/khto9/ai/report/traditionalTransformer.py", line 246, in <module>
+    model.save('/uac/cprj/cprj2716/borrow_from_ESETR_gpmate_tokaho/TradTransformer_NOsparse')
+  File "/uac/y19/khto9/.local/lib/python3.6/site-packages/tensorflow_core/python/keras/engine/network.py", line 975, in save
+    signatures, options)
+  File "/uac/y19/khto9/.local/lib/python3.6/site-packages/tensorflow_core/python/keras/saving/save.py", line 115, in save_model
+    signatures, options)
+  File "/uac/y19/khto9/.local/lib/python3.6/site-packages/tensorflow_core/python/keras/saving/saved_model/save.py", line 74, in save
+    save_lib.save(model, filepath, signatures, options)
+  File "/uac/y19/khto9/.local/lib/python3.6/site-packages/tensorflow_core/python/saved_model/save.py", line 899, in save
+    utils_impl.get_or_create_variables_dir(export_dir)
+  File "/uac/y19/khto9/.local/lib/python3.6/site-packages/tensorflow_core/python/saved_model/utils_impl.py", line 183, in get_or_create_variables_dir
+    file_io.recursive_create_dir(variables_dir)
+  File "/uac/y19/khto9/.local/lib/python3.6/site-packages/tensorflow_core/python/lib/io/file_io.py", line 438, in recursive_create_dir
+    recursive_create_dir_v2(dirname)
+  File "/uac/y19/khto9/.local/lib/python3.6/site-packages/tensorflow_core/python/lib/io/file_io.py", line 453, in recursive_create_dir_v2
+    pywrap_tensorflow.RecursivelyCreateDir(compat.as_bytes(path))
+tensorflow.python.framework.errors_impl.PermissionDeniedError: /uac/cprj/cprj2716/borrow_from_ESETR_gpmate_tokaho/TradTransformer_NOsparse; Permission denied
