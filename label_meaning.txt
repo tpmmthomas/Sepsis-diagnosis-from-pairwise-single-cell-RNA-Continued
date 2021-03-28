@@ -1,7 +1,0 @@
-Control - 0
-ICU-SEP - 1
-Leuk-UTI - 2
-Int-URO - 3
-URO - 4
-Bac-SEP - 5
-ICU-NoSEP - 6
