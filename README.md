@@ -5,6 +5,7 @@ Store all related codes regarding this project.
 
 ## Data PreProcessing 
 -- Please check "data preprocessing" folder.
+
 `readdata.py` contains related codes for data preprocessing stage.   
 `changefdrlimit.py` changes the Fdr Threshold during experiment.   
 `deleteSparseData.py` changes the Sparse Threshold during experiment.   
@@ -17,7 +18,7 @@ Store all related codes regarding this project.
  ## Model Comparison
 the folder "OTHER_MODELS" shows other models we have trained for comparison. (May include same model but with different parameters)
 
-##Results
+## Results
 Screen captures and graphs for evaluating the model is put in the "Results" folder.
 
 
