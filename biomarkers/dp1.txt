@@ -1,0 +1,40 @@
+start123
+First!
+Second!
+Samples 
+(122557, 7)
+Labels 
+(122557,)
+Control
+Converted to label in numbers
+(122557,)
+43449
+79108
+Finish! Raw data
+FAIM3:
+(122557,)
+PLAC8:
+(122557,)
+PLA2G7:
+(122557,)
+LAMP1:
+(122557,)
+CEACAM4:
+(122557,)
+NLRP1:
+(122557,)
+IDNK:
+(122557,)
+FAIM3/PLAC8
+60048
+FAIM3-PLAC8
+122557
+SeptiCyte1
+191
+SeptiCyte2
+122557
+SNIP1
+60048
+SNIP2
+122557
+Finish!
