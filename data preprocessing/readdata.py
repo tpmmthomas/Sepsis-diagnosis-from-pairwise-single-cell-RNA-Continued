@@ -25,6 +25,7 @@ samplesdf = samplesdf.T
 samples_name = samplesdf.index.values
 samples_name = samples_name[1:]
 samples = samplesdf.values
+rna2 = samples[0]
 samples = samples[1:]
 fprint("First!")
 labels_name = np.array([])
@@ -52,6 +53,8 @@ fprint("Samples ")
 fprint(samples.shape)
 fprint("Labels ")
 fprint(labels_text.shape)
+fprint("RNA")
+fprint(rna2.shape)
 fprint(labels_text[0])
 
 #convert labels_text into corresponding labels(0: non-sepsis, 1: sepsis)
@@ -107,6 +110,7 @@ case_sample = np.delete(case_sample,idx,axis = 1)
 con_sample = np.delete(con_sample,idx,axis = 1) 
 x_train = np.delete(x_train,idx,axis = 1) 
 x_test = np.delete(x_test,idx,axis = 1)  
+rna2 = np.delete(rna2,idx)
 
 fprint("After deletion")
 fprint(x_train.shape)
@@ -135,6 +139,7 @@ for fdr in P_fdr:
     i = i + 1
 x_train = np.delete(x_train,idx,1)
 x_test = np.delete(x_test,idx,1)
+rna2 = np.delete(rna2,idx)
 
 
 fprint("Filter succcessful")
@@ -144,6 +149,7 @@ fprint(x_train.shape)
 fprint(x_test.shape)
 fprint(y_train.shape)
 fprint(y_test.shape)
+fprint(rna2.shape)
 
 
 #Delete sparse sample
@@ -207,15 +213,20 @@ fprint("Number of cols found")
 fprint(len(idx))
 x_train = np.delete(x_train,idx,axis=1)
 x_test = np.delete(x_test,idx,axis=1)
+rna2 = np.delete(rna2,idx)
+
 
 fprint("Deleted col sparse.")
 fprint(x_train.shape)
 fprint(x_test.shape)
 fprint(y_train.shape)
 fprint(y_test.shape)
+fprint(rna2.shape)
 
 
 # Save all files
+df = pd.DataFrame(rna2)
+df.to_csv(r"data/rna_names.csv",index=False,sep=",")
 df = pd.DataFrame(P_fdr)
 df.to_csv(r"data/NEW_P_fdr.csv.gz",index=False,sep=",",compression="gzip")
 df = pd.DataFrame(x_train)
